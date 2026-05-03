@@ -1150,7 +1150,7 @@
       </svg>
     </div>
     <!-- LOGO PLACEHOLDER: replace src with your PNG path e.g. src="logo.png" -->
-    <img id="navLogoPng" src="" alt="Aadityaa Hospital Logo"
+    <img id="navLogoPng" src="logo.png" alt="Aadityaa Hospital Logo"
       style="height:40px;width:auto;object-fit:contain;display:block;"
       onerror="this.style.display='none'" />
     <div class="nav-logo-text">Aadityaa <span>Hospital</span></div>
