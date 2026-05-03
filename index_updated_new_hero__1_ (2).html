@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aadityaa Hospital — Akkireddypalem, Visakhapatnam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<style>
+  :root {
+    --bg: #FFE7D3;
+    --text: #4B0000;
+    --primary: #EA580C;
+    --accent: #920000;
+    --surface: #FFFFFF;
+    --border: #FF974F;
+    --bg-dark: #1a0a00;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* Custom cursor removed — using default browser cursor */
+
+  /* ═══════════════════════════
+     NAV
+  ═══════════════════════════ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+  }
+  nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,151,79,0.2);
+    z-index: -1;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo-icon {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-logo-icon svg { width: 24px; height: 24px; fill: white; }
+  .nav-logo-text {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+  }
+  .nav-logo-text span { color: var(--primary); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--primary); }
+  .nav-cta {
+    background: var(--accent);
+    color: white !important;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--primary) !important; transform: translateY(-1px); }
+
+  /* Hamburger */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px; height: 44px;
+    background: none;
+    border: 1.5px solid rgba(75,0,0,0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    gap: 5px;
+    flex-shrink: 0;
+    z-index: 1001;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.35s ease, opacity 0.25s ease, width 0.25s ease;
+    transform-origin: center;
+  }
+  .nav-hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.active span:nth-child(2) { opacity: 0; width: 0; }
+  .nav-hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile overlay menu */
+  .mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    padding: 100px 32px 48px;
+    gap: 0;
+    transform: translateX(100%);
+    transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+    overflow-y: auto;
+  }
+  .mobile-menu-overlay.open { transform: translateX(0); }
+
+  .mobile-nav-link {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 8vw, 40px);
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,151,79,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: color 0.2s;
+  }
+  .mobile-nav-link:hover, .mobile-nav-link:active { color: var(--primary); }
+  .mobile-nav-link .arrow {
+    font-size: 20px;
+    opacity: 0.3;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .mobile-nav-link:hover .arrow { opacity: 1; transform: translateX(4px); }
+  .mobile-book-btn {
+    margin-top: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    padding: 18px 32px;
+    border-radius: 14px;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    transition: background 0.2s;
+  }
+  .mobile-book-btn:active { background: var(--primary); }
+  .mobile-menu-contact {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(75,0,0,0.45);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .mobile-menu-contact a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* ═══════════════════════════
+     HERO — index11 layout · index_updated palette
+  ═══════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 64px;
+  }
+  .h-sunbg {
+    position: absolute;
+    top: -10%; right: -5%;
+    width: 75vw; height: 75vw;
+    max-width: 900px; max-height: 900px;
+    pointer-events: none;
+    opacity: 0.20;
+    animation: hero-spin 90s linear infinite;
+  }
+  @keyframes hero-spin { to { transform: rotate(360deg); } }
+  .h-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .h-redbar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+  }
+  .h-left {
+    position: relative;
+    z-index: 2;
+    padding: 7rem 0;
+  }
+  .h-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    background: rgba(146,0,0,0.07);
+    border: 1px solid rgba(146,0,0,0.18);
+    border-radius: 100px;
+    padding: .4rem 1rem .4rem .6rem;
+    margin-bottom: 2.5rem;
+  }
+  .h-badge-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: hero-pulse 2s ease-in-out infinite;
+  }
+  @keyframes hero-pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:.5; transform:scale(.8); }
+  }
+  .h-badge span {
+    font-family: 'Urbanist', sans-serif;
+    font-size: .65rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-family: 'Urbanist', sans-serif;
+    font-size: clamp(3rem,6.5vw,6.5rem);
+    font-weight: 900;
+    line-height: .98;
+    letter-spacing: -.03em;
+    color: var(--text);
+    margin-bottom: 1.8rem;
+  }
+  .hero h1 .ac { color: var(--primary); font-style: italic; font-weight: 300; }
+  .hero h1 .rc { color: var(--accent); }
+  .h-sub {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: rgba(75,0,0,0.5);
+    max-width: 420px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+  .h-btns { display: flex; align-items: center; gap: 1.8rem; flex-wrap: wrap; }
+  .btn-h {
+    background: var(--accent);
+    color: #fff;
+    padding: .95rem 2.4rem;
+    border-radius: 12px;
+    font-family: 'Urbanist', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: background .25s, transform .2s;
+  }
+  .btn-h:hover { background: var(--primary); transform: translateY(-2px); }
+  .btn-hg {
+    font-family: 'Urbanist', sans-serif;
+    color: rgba(75,0,0,0.5);
+    font-size: .78rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    transition: color .2s;
+  }
+  .btn-hg:hover { color: var(--text); }
+  .btn-hg .ar { transition: transform .2s; }
+  .btn-hg:hover .ar { transform: translateX(5px); }
+  .h-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(255,151,79,0.25);
+    flex-wrap: wrap;
+  }
+  .h-stat-n {
+    font-family: 'Urbanist', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1;
+    display: block;
+  }
+  .h-stat-l {
+    font-size: .65rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: rgba(75,0,0,0.4);
+    margin-top: .3rem;
+    display: block;
+  }
+  .h-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* ── Image Reel ── */
+  .h-reel {
+    display: flex;
+    gap: 14px;
+    height: 100vh;
+    width: 100%;
+    max-width: 520px;
+    overflow: hidden;
+    position: relative;
+  }
+  /* top & bottom fade masks */
+  .h-reel::before, .h-reel::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 180px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .h-reel::before { top: 0; background: linear-gradient(to bottom, #ffffff 0%, transparent 100%); }
+  .h-reel::after  { bottom: 0; background: linear-gradient(to top, #ffffff 0%, transparent 100%); }
+
+  .reel-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    will-change: transform;
+  }
+  .reel-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 14px;
+    flex-shrink: 0;
+    display: block;
+    background: rgba(146,0,0,0.06);
+  }
+  /* placeholder color blocks while images load */
+  .reel-img-ph {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 14px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(234,88,12,0.12) 0%, rgba(146,0,0,0.08) 100%);
+  }
+  .h-scroll {
+    position: absolute;
+    bottom: 3rem;
+    left: 64px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgba(75,0,0,0.3);
+  }
+  .h-scroll-line {
+    width: 50px; height: 1px;
+    background: linear-gradient(90deg, rgba(75,0,0,0.3), transparent);
+  }
+  .h-scroll span {
+    font-family: 'Urbanist', sans-serif;
+    font-size: .6rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+
+    /* ═══════════════════════════
+     MARQUEE
+  ═══════════════════════════ */
+  .marquee-section {
+    background: var(--accent);
+    padding: 14px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 3;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 36px;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: white;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ═══════════════════════════
+     SECTION COMMON
+  ═══════════════════════════ */
+  section { padding: 100px 64px; }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .section-label::before {
+    content: '';
+    width: 22px; height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 900;
+    font-size: clamp(34px, 4vw, 58px);
+    line-height: 1.0;
+    letter-spacing: -2px;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(75,0,0,0.55);
+    max-width: 520px;
+  }
+
+  /* ═══════════════════════════
+     ABOUT
+  ═══════════════════════════ */
+  .about {
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    padding: 100px 64px;
+  }
+  .about-visual { position: relative; }
+  .about-img-main {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 24px;
+    display: block;
+  }
+  .about-img-accent {
+    position: absolute;
+    bottom: -32px;
+    right: -32px;
+    width: 200px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 6px solid white;
+    box-shadow: 0 20px 60px rgba(75,0,0,0.15);
+  }
+  .about-accent-blob {
+    position: absolute;
+    top: -24px;
+    left: -24px;
+    width: 120px; height: 120px;
+    background: var(--border);
+    border-radius: 50%;
+    opacity: 0.25;
+    filter: blur(40px);
+  }
+  .about-feature-list {
+    list-style: none;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .about-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .about-feature-icon {
+    width: 44px; height: 44px;
+    background: rgba(234,88,12,0.08);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(234,88,12,0.15);
+  }
+  .about-feature-icon svg { width: 20px; height: 20px; color: var(--primary); }
+  .about-feature-title {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .about-feature-text {
+    font-size: 14px;
+    color: rgba(75,0,0,0.5);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════
+     SERVICES
+  ═══════════════════════════ */
+  .services { background: var(--bg); padding: 100px 64px; }
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(255,151,79,0.15);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .service-tile {
+    background: var(--bg);
+    padding: 44px 32px;
+    position: relative;
+    transition: background 0.4s;
+    overflow: hidden;
+    cursor: default;
+  }
+  .service-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s ease;
+    z-index: 0;
+  }
+  .service-tile:hover::before { transform: scaleY(1); }
+  .service-tile:hover .service-icon svg { color: white; }
+  .service-tile:hover .service-name { color: white; }
+  .service-tile:hover .service-desc { color: rgba(255,255,255,0.7); }
+  .service-tile:hover .service-num { color: rgba(255,255,255,0.1); }
+
+  .service-icon { width: 48px; height: 48px; margin-bottom: 22px; position: relative; z-index: 1; }
+  .service-icon svg { width: 48px; height: 48px; color: var(--accent); transition: color 0.4s; }
+  .service-name {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--text);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+    position: relative; z-index: 1;
+    transition: color 0.4s;
+  }
+  .service-desc {
+    font-size: 14px;
+    color: rgba(75,0,0,0.5);
+    line-height: 1.7;
+    position: relative; z-index: 1;
+    transition: color 0.4s;
+  }
+  .service-num {
+    position: absolute;
+    bottom: 20px; right: 24px;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 900;
+    font-size: 60px;
+    color: rgba(75,0,0,0.04);
+    line-height: 1;
+    z-index: 0;
+    transition: color 0.4s;
+  }
+
+  /* ═══════════════════════════
+     DOCTORS
+  ═══════════════════════════ */
+  .doctors {
+    background: var(--text);
+    padding: 100px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .doctors::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.05;
+    filter: blur(80px);
+  }
+  .doctors .section-title { color: white; }
+  .doctors .section-sub { color: rgba(255,255,255,0.45); }
+  .doctors .section-label { color: var(--border); }
+  .doctors .section-label::before { background: var(--border); }
+  .doctors-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 52px;
+  }
+  .doctor-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .doctor-card:hover {
+    border-color: rgba(234,88,12,0.4);
+    background: rgba(255,255,255,0.06);
+  }
+  .doctor-img {
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(20%);
+    transition: filter 0.4s;
+  }
+  .doctor-card:hover .doctor-img { filter: grayscale(0%); }
+  .doctor-info {
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .doctor-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(234,88,12,0.15);
+    border: 1px solid rgba(234,88,12,0.3);
+    padding: 4px 12px;
+    border-radius: 100px;
+    width: fit-content;
+    margin-bottom: 14px;
+  }
+  .doctor-tag span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .doctor-name {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: white;
+    letter-spacing: -0.5px;
+    margin-bottom: 5px;
+  }
+  .doctor-degree { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 18px; }
+  .doctor-highlights { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .doctor-highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+  }
+  .doctor-highlights li svg { width: 13px; height: 13px; color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+
+  /* ═══════════════════════════
+     REVIEWS
+  ═══════════════════════════ */
+  .reviews { background: var(--bg); padding: 100px 64px; }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 52px;
+  }
+  .review-item {
+    background: white;
+    border-radius: 20px;
+    padding: 32px 28px;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .review-item:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(75,0,0,0.08); }
+  .review-quote {
+    position: absolute;
+    top: 22px; right: 22px;
+    width: 30px; height: 30px;
+    color: rgba(234,88,12,0.13);
+  }
+  .review-stars { display: flex; gap: 3px; margin-bottom: 14px; }
+  .review-stars svg { width: 14px; height: 14px; color: var(--primary); fill: var(--primary); }
+  .review-text { font-size: 14px; line-height: 1.7; color: rgba(75,0,0,0.7); margin-bottom: 22px; }
+  .review-author { display: flex; align-items: center; gap: 12px; }
+  .review-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(234,88,12,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+  .review-name { font-family: 'Urbanist', sans-serif; font-weight: 700; font-size: 14px; color: var(--text); }
+  .review-date { font-size: 12px; color: rgba(75,0,0,0.35); margin-top: 2px; }
+
+  /* ═══════════════════════════
+     APPOINTMENT
+  ═══════════════════════════ */
+  .appointment {
+    background: var(--accent);
+    padding: 100px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .appointment::before {
+    content: '';
+    position: absolute;
+    bottom: -160px; right: -160px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    border: 80px solid rgba(255,255,255,0.04);
+  }
+  .appointment::after {
+    content: '';
+    position: absolute;
+    top: -100px; left: 40%;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    border: 50px solid rgba(255,255,255,0.04);
+  }
+  .appointment-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 72px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .appointment-left .section-title { color: white; }
+  .appointment-left .section-sub { color: rgba(255,255,255,0.55); }
+  .appointment-left .section-label { color: rgba(255,151,79,0.8); }
+  .appointment-left .section-label::before { background: rgba(255,151,79,0.8); }
+  .appt-info { margin-top: 36px; display: flex; flex-direction: column; gap: 18px; }
+  .appt-info-item { display: flex; align-items: center; gap: 14px; color: rgba(255,255,255,0.7); font-size: 15px; }
+  .appt-info-item svg { width: 18px; height: 18px; color: var(--border); flex-shrink: 0; }
+  .appt-info-item a { color: white; text-decoration: none; font-weight: 600; }
+
+  .appt-form {
+    background: white;
+    border-radius: 24px;
+    padding: 44px 40px;
+    box-shadow: 0 40px 100px rgba(75,0,0,0.2);
+  }
+  .appt-form-title { font-family: 'Urbanist', sans-serif; font-weight: 800; font-size: 22px; color: var(--text); margin-bottom: 6px; letter-spacing: -0.5px; }
+  .appt-form-sub { font-size: 14px; color: rgba(75,0,0,0.45); margin-bottom: 32px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label { font-size: 11px; font-weight: 600; color: rgba(75,0,0,0.5); text-transform: uppercase; letter-spacing: 0.8px; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1.5px solid rgba(255,151,79,0.3);
+    border-radius: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: rgba(255,231,211,0.25);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--primary);
+    background: white;
+  }
+  .form-textarea { resize: none; height: 86px; }
+  .form-submit {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 6px;
+  }
+  .form-submit:hover { background: var(--primary); transform: translateY(-2px); }
+  .form-submit svg { width: 17px; height: 17px; }
+
+  /* ═══════════════════════════
+     FAQ
+  ═══════════════════════════ */
+  .faq { background: white; padding: 100px 64px; }
+  .faq-inner { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: flex-start; }
+  .faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 0; }
+  .faq-item { border-bottom: 1px solid rgba(255,151,79,0.2); overflow: hidden; }
+  .faq-question {
+    padding: 22px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    gap: 16px;
+    user-select: none;
+  }
+  .faq-question svg { width: 20px; height: 20px; color: var(--primary); flex-shrink: 0; transition: transform 0.3s; }
+  .faq-item.open .faq-question svg { transform: rotate(45deg); }
+  .faq-answer {
+    font-size: 15px;
+    color: rgba(75,0,0,0.55);
+    line-height: 1.7;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+    padding-bottom: 0;
+  }
+  .faq-item.open .faq-answer { max-height: 220px; padding-bottom: 22px; }
+
+  /* ═══════════════════════════
+     LOCATION
+  ═══════════════════════════ */
+  .location { background: var(--bg); padding: 100px 64px; }
+  .location-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center; }
+  .location-details { display: flex; flex-direction: column; gap: 28px; margin-top: 36px; }
+  .location-detail { display: flex; gap: 16px; align-items: flex-start; }
+  .location-detail-icon {
+    width: 44px; height: 44px;
+    background: rgba(146,0,0,0.08);
+    border: 1px solid rgba(146,0,0,0.12);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .location-detail-icon svg { width: 20px; height: 20px; color: var(--accent); }
+  .location-detail-title { font-family: 'Urbanist', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 4px; }
+  .location-detail-text { font-size: 14px; color: rgba(75,0,0,0.5); line-height: 1.6; }
+  .map-embed {
+    border-radius: 24px;
+    overflow: hidden;
+    height: 400px;
+    box-shadow: 0 24px 80px rgba(75,0,0,0.1);
+    border: 2px solid rgba(255,151,79,0.2);
+  }
+  .map-embed iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  /* ═══════════════════════════
+     FOOTER
+  ═══════════════════════════ */
+  footer { background: var(--text); padding: 72px 64px 40px; color: white; }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 52px;
+  }
+  .footer-brand .nav-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; text-decoration: none; }
+  .footer-brand .nav-logo-text { color: white; }
+  .footer-tagline { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 280px; margin-bottom: 22px; }
+  .footer-contact-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--border);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Urbanist', sans-serif;
+    transition: color 0.2s;
+  }
+  .footer-contact-link:hover { color: white; }
+  .footer-contact-link svg { width: 16px; height: 16px; }
+  .footer-col-title {
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .footer-links a { font-size: 14px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--border); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.25); }
+  .footer-bottom span { color: var(--border); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: #1a0a00;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    z-index: 99999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.4s ease;
+    max-width: calc(100vw - 56px);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast svg { width: 20px; height: 20px; color: #4ade80; flex-shrink: 0; }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE — TABLET  (≤1024px)
+  ═══════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    nav { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+
+    section { padding: 80px 32px; }
+    .about { grid-template-columns: 1fr; gap: 48px; padding: 80px 32px; }
+    .services { padding: 80px 32px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .doctors { padding: 80px 32px; }
+    .doctors-grid { grid-template-columns: 1fr; }
+    .doctor-card { grid-template-columns: 160px 1fr; }
+    .reviews { padding: 80px 32px; }
+    .reviews-grid { grid-template-columns: 1fr 1fr; }
+    .appointment { padding: 80px 32px; }
+    .appointment-inner { grid-template-columns: 1fr; gap: 48px; }
+    .appt-form { padding: 32px 28px; }
+    .faq { padding: 80px 32px; }
+    .faq-inner { grid-template-columns: 1fr; gap: 40px; }
+    .location { padding: 80px 32px; }
+    .location-inner { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 60px 32px 36px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .h-reel { max-width: 100%; }
+
+    /* Hero tablet */
+    .hero { grid-template-columns: 1fr; padding: 0 2.5rem; }
+    .h-right { display: none; }
+    .h-left { padding: 8rem 0 4rem; }
+    .about-img-accent { display: none; }
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE — MOBILE  (≤640px)
+  ═══════════════════════════════════════════ */
+  @media (max-width: 640px) {
+    nav { padding: 12px 16px; }
+    .nav-logo-text { font-size: 16px; }
+    /* Hero mobile */
+    .hero { padding: 0 1.25rem; }
+    .h-left { padding: 6rem 0 3rem; }
+    .hero h1 { font-size: clamp(2.2rem, 9vw, 3.2rem); letter-spacing: -.04em; }
+    .h-sub { font-size: .9rem; margin-bottom: 2rem; }
+    .h-btns { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .btn-h { width: 100%; text-align: center; padding: .9rem 1.5rem; }
+    .h-stats { gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; padding-top: 2rem; }
+    .h-stat-n { font-size: 1.6rem; }
+    .h-scroll { left: 1.25rem; bottom: 1.5rem; }
+    .h-sunbg { width: 130vw; top: -5%; right: -15%; }
+    .nav-logo-icon { width: 36px; height: 36px; border-radius: 8px; }
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+
+    section { padding: 64px 20px; }
+
+    /*
+    /* About mobile */
+    .about { grid-template-columns: 1fr; gap: 36px; padding: 64px 20px; }
+    .about-img-main { height: 280px; border-radius: 16px; }
+    .about-img-accent { display: none; }
+
+    /* Services mobile */
+    .services { padding: 64px 20px; }
+    .services-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-tile { padding: 32px 24px; }
+
+    /* Doctors mobile */
+    .doctors { padding: 64px 20px; }
+    .doctors-grid { grid-template-columns: 1fr; gap: 20px; }
+    .doctor-card { grid-template-columns: 1fr; }
+    .doctor-img { height: 220px; object-position: center top; }
+    .doctor-info { padding: 24px 20px; }
+
+    /* Reviews mobile — single column */
+    .reviews { padding: 64px 20px; }
+    .reviews-grid { grid-template-columns: 1fr; gap: 16px; }
+    .review-item { padding: 24px 20px; }
+
+    /* Appointment mobile */
+    .appointment { padding: 64px 20px; }
+    .appointment-inner { grid-template-columns: 1fr; gap: 36px; }
+    .appt-form { padding: 28px 20px; border-radius: 18px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+
+    /* FAQ mobile */
+    .faq { padding: 64px 20px; }
+    .faq-inner { grid-template-columns: 1fr; gap: 32px; }
+    .faq-question { font-size: 15px; }
+
+    /* Location mobile */
+    .location { padding: 64px 20px; }
+    .location-inner { grid-template-columns: 1fr; gap: 36px; }
+    .map-embed { height: 300px; border-radius: 16px; }
+
+    /* Footer mobile */
+    footer { padding: 52px 20px 32px; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+    /* Section title adjustment */
+    .section-title { font-size: clamp(28px, 8vw, 42px); letter-spacing: -1.5px; }
+
+    /* Toast mobile */
+    .toast { bottom: 16px; right: 16px; left: 16px; font-size: 14px; }
+
+    /* Mobile menu font size */
+    .mobile-nav-link { font-size: clamp(26px, 7vw, 36px); }
+  }
+
+  /* Extra small phones */
+  @media (max-width: 380px) {
+    .hero h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="mainNav">
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24" fill="white">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5" fill="none" stroke="white" stroke-width="1.5"/>
+        <path d="M2 12l10 5 10-5" fill="none" stroke="white" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <!-- LOGO PLACEHOLDER: replace src with your PNG path e.g. src="logo.png" -->
+    <img id="navLogoPng" src="" alt="Aadityaa Hospital Logo"
+      style="height:40px;width:auto;object-fit:contain;display:block;"
+      onerror="this.style.display='none'" />
+    <div class="nav-logo-text">Aadityaa <span>Hospital</span></div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#doctors">Doctors</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#appointment" class="nav-cta">Book Appointment</a></li>
+  </ul>
+
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  Appointment request sent! We'll call you shortly.
+</div>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <a href="#about" class="mobile-nav-link" onclick="closeMobileMenu()">About<span class="arrow">→</span></a>
+  <a href="#services" class="mobile-nav-link" onclick="closeMobileMenu()">Services<span class="arrow">→</span></a>
+  <a href="#doctors" class="mobile-nav-link" onclick="closeMobileMenu()">Doctors<span class="arrow">→</span></a>
+  <a href="#reviews" class="mobile-nav-link" onclick="closeMobileMenu()">Reviews<span class="arrow">→</span></a>
+  <a href="#faq" class="mobile-nav-link" onclick="closeMobileMenu()">FAQ<span class="arrow">→</span></a>
+  <a href="#appointment" class="mobile-book-btn" onclick="closeMobileMenu()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Book Appointment
+  </a>
+  <div class="mobile-menu-contact">
+    Call us:&nbsp;<a href="tel:9182140264">9182140264</a>
+  </div>
+</div>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero" id="home">
+
+  <!-- Grey compass-rose background -->
+  <svg class="h-sunbg" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#b0b8c4" stroke-width="1">
+      <line x1="450" y1="0" x2="450" y2="900"/>
+      <line x1="0" y1="450" x2="900" y2="450"/>
+      <line x1="0" y1="0" x2="900" y2="900"/>
+      <line x1="900" y1="0" x2="0" y2="900"/>
+      <line x1="225" y1="0" x2="675" y2="900"/>
+      <line x1="675" y1="0" x2="225" y2="900"/>
+      <line x1="0" y1="225" x2="900" y2="675"/>
+      <line x1="0" y1="675" x2="900" y2="225"/>
+      <line x1="150" y1="0" x2="750" y2="900"/>
+      <line x1="750" y1="0" x2="150" y2="900"/>
+      <line x1="0" y1="150" x2="900" y2="750"/>
+      <line x1="0" y1="750" x2="900" y2="150"/>
+    </g>
+    <circle cx="450" cy="450" r="350" stroke="#b0b8c4" stroke-width=".8"/>
+    <circle cx="450" cy="450" r="250" stroke="#b0b8c4" stroke-width=".8"/>
+    <circle cx="450" cy="450" r="150" stroke="#b0b8c4" stroke-width=".8"/>
+  </svg>
+
+  <div class="h-grain"></div>
+  <div class="h-redbar"></div>
+
+  <!-- Left content -->
+  <div class="h-left" id="hLeft">
+    <div class="h-badge">
+      <span class="h-badge-dot"></span>
+      <span>24/7 Emergency Services Available</span>
+    </div>
+    <h1>
+      Healing with<br>
+      <span class="ac">compassion,</span><br>
+      <span class="rc">excellence</span><br>
+      &amp; trust.
+    </h1>
+    <p class="h-sub"><strong style="color:var(--accent);font-weight:700;">Dr. H. Karthik</strong> &amp; <strong style="color:var(--accent);font-weight:700;">Dr. B. Manasa</strong> — MBBS MD — lead a dedicated team committed to your health, available around the clock in Akkireddypalem, Visakhapatnam.</p>
+    <div class="h-btns">
+      <a href="#services" class="btn-h">Our Services</a>
+      <a href="#doctors" class="btn-hg">Meet the doctors <span class="ar">→</span></a>
+    </div>
+    <div class="h-stats">
+      <div><span class="h-stat-n">4.5★</span><span class="h-stat-l">Patient Rating</span></div>
+      <div><span class="h-stat-n">42+</span><span class="h-stat-l">Reviews</span></div>
+      <div><span class="h-stat-n">24/7</span><span class="h-stat-l">Always Open</span></div>
+    </div>
+  </div>
+
+  <!-- Right: 3-column vertical image reel -->
+  <div class="h-right">
+    <div class="h-reel" id="hReel">
+      <!-- Column 1 — scrolls UP -->
+      <div class="reel-col" id="reelCol1">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&q=80" alt="Doctor with patient" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&q=80" alt="Medical care" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&q=80" alt="Hospital corridor" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&q=80" alt="Nurse caring" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&q=80" alt="Doctor with patient" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&q=80" alt="Medical care" loading="lazy">
+      </div>
+      <!-- Column 2 — scrolls DOWN -->
+      <div class="reel-col" id="reelCol2">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80" alt="Doctor consultation" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=400&q=80" alt="Patient care" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=400&q=80" alt="Medical team" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&q=80" alt="ICU care" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&q=80" alt="Doctor consultation" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=400&q=80" alt="Patient care" loading="lazy">
+      </div>
+      <!-- Column 3 — scrolls UP slower -->
+      <div class="reel-col" id="reelCol3">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=400&q=80" alt="Surgery team" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=400&q=80" alt="Doctor examining" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1588776814546-1ffedbd47425?w=400&q=80" alt="Clinic care" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400&q=80" alt="Patient recovery" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=400&q=80" alt="Surgery team" loading="lazy">
+        <img class="reel-img" src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=400&q=80" alt="Doctor examining" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="h-scroll">
+    <div class="h-scroll-line"></div>
+    <span>Scroll to explore</span>
+  </div>
+
+</section>
+<!-- ================= END HERO SECTION ================= -->
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>General Medicine</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Emergency Care</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Psychological Consultation</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Surgical Services</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Ambulance Services</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>First Aid</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Wheelchair Accessible</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Healthcare Packages</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>General Medicine</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Emergency Care</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Psychological Consultation</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Surgical Services</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Ambulance Services</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>First Aid</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Wheelchair Accessible</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Healthcare Packages</span><div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- About -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-accent-blob"></div>
+    <img class="about-img-main" src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&auto=format&fit=crop&q=80" alt="Aadityaa Hospital care" loading="lazy">
+    <img class="about-img-accent" src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400&auto=format&fit=crop&q=80" alt="Doctor consultation" loading="lazy">
+  </div>
+  <div class="about-content">
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">A Pillar of<br>the Community</h2>
+    <p class="section-sub">Aadityaa Hospital has served the people of Akkireddypalem, Visakhapatnam for many years. With a 4.5-star rating from 42 verified reviews, we're committed to accessible, high-quality care for patients of all ages.</p>
+    <ul class="about-feature-list">
+      <li class="about-feature">
+        <div class="about-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="about-feature-body">
+          <div class="about-feature-title">Open 24 Hours, 7 Days</div>
+          <div class="about-feature-text">Round-the-clock availability for emergencies and consultations, every single day of the week.</div>
+        </div>
+      </li>
+      <li class="about-feature">
+        <div class="about-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div class="about-feature-body">
+          <div class="about-feature-title">Patient-First Philosophy</div>
+          <div class="about-feature-text">Our team creates a welcoming, relaxing environment where every patient is treated with dignity and care.</div>
+        </div>
+      </li>
+      <li class="about-feature">
+        <div class="about-feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="about-feature-body">
+          <div class="about-feature-title">Fully Accessible Facilities</div>
+          <div class="about-feature-text">Wheelchair-accessible car parking and entrance/exit designed for every patient's convenience.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Comprehensive<br>Medical Care</h2>
+    </div>
+    <p class="section-sub" style="max-width:320px">From emergency response to specialised consultations, we provide the full spectrum of healthcare services.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-tile">
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <div class="service-name">General Medicine</div>
+      <div class="service-desc">Diagnosis and treatment of common illnesses and chronic conditions for patients of all ages.</div>
+      <div class="service-num">01</div>
+    </div>
+    <div class="service-tile">
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="service-name">Emergency Care</div>
+      <div class="service-desc">24/7 emergency services staffed with experienced doctors ready for critical situations.</div>
+      <div class="service-num">02</div>
+    </div>
+    <div class="service-tile">
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="service-name">Psychology</div>
+      <div class="service-desc">Professional mental health consultations for stress, anxiety, depression, and emotional well-being.</div>
+      <div class="service-num">03</div>
+    </div>
+    <div class="service-tile">
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+      <div class="service-name">Surgical Services</div>
+      <div class="service-desc">Minor and major surgical procedures performed with precision and utmost safety standards.</div>
+      <div class="service-num">04</div>
+    </div>
+    <div class="service-tile">
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 10h10"/><path d="M7 13h4"/></svg></div>
+      <div class="service-name">Ambulance Services</div>
+      <div class="service-desc">Rapid response ambulance for emergency transport, available around the clock.</div>
+      <div class="service-num">05</div>
+    </div>
+    <div class="service-tile">
+      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+      <div class="service-name">Healthcare Packages</div>
+      <div class="service-desc">Affordable preventive health checkup packages for individuals and families.</div>
+      <div class="service-num">06</div>
+    </div>
+  </div>
+</section>
+
+<!-- Doctors -->
+<section class="doctors" id="doctors">
+  <div class="section-label">Our Team</div>
+  <h2 class="section-title">Meet Our Doctors</h2>
+  <p class="section-sub">Our qualified physicians bring years of experience and a genuine commitment to patient care.</p>
+  <div class="doctors-grid">
+    <div class="doctor-card">
+      <img class="doctor-img"
+        src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&auto=format&fit=crop&q=80"
+        alt="Dr. Aadityaa — General Physician">
+      <div class="doctor-info">
+        <div class="doctor-tag"><span>General Physician</span></div>
+        <div class="doctor-name">Dr. Aadityaa</div>
+        <div class="doctor-degree">MBBS, MD — General Medicine</div>
+        <ul class="doctor-highlights">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Expert in internal medicine & chronic care</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Available for emergency consultations 24/7</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Trusted by patients across Visakhapatnam</li>
+        </ul>
+      </div>
+    </div>
+    <div class="doctor-card">
+      <img class="doctor-img"
+        src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&auto=format&fit=crop&q=80"
+        alt="Dr. Priya Sharma — Psychologist">
+      <div class="doctor-info">
+        <div class="doctor-tag"><span>Psychologist</span></div>
+        <div class="doctor-name">Dr. Priya Sharma</div>
+        <div class="doctor-degree">MBBS, DPM — Psychiatry & Psychology</div>
+        <ul class="doctor-highlights">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Specialises in anxiety, stress & counselling</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Compassionate approach to mental health</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Experienced in family & occupational therapy</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section class="reviews" id="reviews">
+  <div class="section-label">What Patients Say</div>
+  <h2 class="section-title">Real Stories,<br>Real Care</h2>
+  <div class="reviews-grid">
+    <div class="review-item">
+      <svg class="review-quote" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11z"/></svg>
+      <div class="review-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="review-text">Very good hospital. Doctors are very helpful and cooperative. Clean environment, quick service. My family trusts this hospital completely.</p>
+      <div class="review-author">
+        <div class="review-avatar">R</div>
+        <div>
+          <div class="review-name">Ravi Kumar</div>
+          <div class="review-date">Google Review · 2 months ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-item">
+      <svg class="review-quote" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11z"/></svg>
+      <div class="review-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="review-text">Excellent treatment! The doctor was very attentive and explained everything clearly. Felt much better after the consultation. Highly recommended!</p>
+      <div class="review-author">
+        <div class="review-avatar">S</div>
+        <div>
+          <div class="review-name">Srinivasa Rao</div>
+          <div class="review-date">Google Review · 3 months ago</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-item">
+      <svg class="review-quote" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11z"/></svg>
+      <div class="review-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <p class="review-text">Took my elderly mother for treatment — the staff was incredibly patient and kind. Clean facility, short wait times. The doctor spent quality time with us.</p>
+      <div class="review-author">
+        <div class="review-avatar">L</div>
+        <div>
+          <div class="review-name">Lakshmi Devi</div>
+          <div class="review-date">Google Review · 1 month ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Appointment -->
+<section class="appointment" id="appointment">
+  <div class="appointment-inner">
+    <div class="appointment-left">
+      <div class="section-label">Book a Visit</div>
+      <h2 class="section-title">Schedule Your Appointment</h2>
+      <p class="section-sub">Walk in or call us anytime. We're here 24/7 to care for you and your family.</p>
+      <div class="appt-info">
+        <div class="appt-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.9 19.79 19.79 0 0 1 1.61 4.3 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call / WhatsApp: <a href="tel:9182140264">9182140264</a>
+        </div>
+        <div class="appt-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Open 24 hours · 7 days a week
+        </div>
+        <div class="appt-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Akkireddypalem, Visakhapatnam, AP
+        </div>
+      </div>
+    </div>
+    <div class="appt-form">
+      <div class="appt-form-title">Request an Appointment</div>
+      <div class="appt-form-sub">Fill in your details and we'll confirm shortly</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" id="fname" placeholder="Ravi">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" id="lname" placeholder="Kumar">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number *</label>
+          <input type="tel" class="form-input" id="phone" placeholder="9XXXXXXXXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Date</label>
+          <input type="date" class="form-input" id="appt-date">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Service</label>
+          <select class="form-select" id="service">
+            <option value="">Select a service</option>
+            <option>General Medicine</option>
+            <option>Emergency Care</option>
+            <option>Psychology / Counselling</option>
+            <option>Surgical Services</option>
+            <option>Ambulance</option>
+            <option>Health Checkup Package</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Message (optional)</label>
+          <textarea class="form-textarea" id="message" placeholder="Briefly describe your concern…"></textarea>
+        </div>
+      </div>
+      <button class="form-submit" onclick="submitForm()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Submit Request
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div>
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Questions?<br>We Have<br>Answers.</h2>
+      <p class="section-sub" style="margin-top:16px">Can't find what you're looking for? Call us anytime on <a href="tel:9182140264" style="color:var(--primary);font-weight:600">9182140264</a>.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Is Aadityaa Hospital open 24/7?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-answer">Yes, Aadityaa Hospital is open 24 hours a day, 7 days a week including public holidays. Our emergency team is always on standby to assist you.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Do you provide ambulance services?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-answer">Yes, we have ambulance services available. Call 9182140264 immediately in an emergency and our team will respond as quickly as possible.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Is the hospital wheelchair accessible?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-answer">Absolutely. The hospital features wheelchair-accessible car parking, entrance, and exit to ensure all patients can access our services comfortably.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          What specialties are available?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-answer">We offer General Medicine, Emergency Care, Psychological Consultation, Surgical Services, Ambulance Services, First Aid, and affordable Healthcare Packages.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          How do I book an appointment?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-answer">You can book online using our appointment form above, call/WhatsApp us at 9182140264, or simply walk in at any time. No advance booking is required for emergency cases.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Does the hospital accept insurance?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-answer">Please call us at 9182140264 to confirm which insurance plans we currently accept. Our staff will help you understand payment and coverage options available.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Location -->
+<section class="location" id="location">
+  <div class="location-inner">
+    <div>
+      <div class="section-label">Find Us</div>
+      <h2 class="section-title">How to<br>Reach Us</h2>
+      <div class="location-details">
+        <div class="location-detail">
+          <div class="location-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="location-detail-title">Address</div>
+            <div class="location-detail-text">Akkireddypalem, Visakhapatnam,<br>Andhra Pradesh, India</div>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="location-detail-title">Opening Hours</div>
+            <div class="location-detail-text">Open 24 Hours · 7 Days a Week<br>Emergency services always available</div>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="location-detail-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.9 19.79 19.79 0 0 1 1.61 4.3 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="location-detail-title">Phone / WhatsApp</div>
+            <div class="location-detail-text"><a href="tel:9182140264" style="color:var(--primary);font-weight:600;text-decoration:none">9182140264</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map-embed">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3800.123!2d83.2185!3d17.7230!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a395b5d7c3b4567%3A0x1234567890abcdef!2sAkkireddypalem%2C%20Visakhapatnam%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1234567890"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Aadityaa Hospital location map">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="nav-logo-text">Aadityaa <span>Hospital</span></div>
+      </a>
+      <p class="footer-tagline">Dedicated to delivering high-quality, compassionate healthcare to every patient who walks through our doors.</p>
+      <a href="tel:9182140264" class="footer-contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.9 19.79 19.79 0 0 1 1.61 4.3 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        9182140264
+      </a>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Our Services</a></li>
+        <li><a href="#doctors">Our Doctors</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#services">General Medicine</a></li>
+        <li><a href="#services">Emergency Care</a></li>
+        <li><a href="#services">Psychology</a></li>
+        <li><a href="#services">Surgical Services</a></li>
+        <li><a href="#services">Ambulance</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="tel:9182140264">Call Us</a></li>
+        <li><a href="#appointment">Book Appointment</a></li>
+        <li><a href="#location">Get Directions</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 <span>Aadityaa Hospital</span>. All rights reserved.</p>
+    <p>Akkireddypalem, Visakhapatnam, Andhra Pradesh</p>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════
+// LENIS SMOOTH SCROLL
+// ══════════════════════════════════
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+});
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+
+// Anchor smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', (e) => {
+    const href = anchor.getAttribute('href');
+    if (href === '#') return;
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) lenis.scrollTo(target, { offset: -80 });
+  });
+});
+
+// ══════════════════════════════════
+// GSAP INIT
+// ══════════════════════════════════
+gsap.registerPlugin(ScrollTrigger);
+
+// ══════════════════════════════════
+// HERO PARALLAX (index11 style)
+// ══════════════════════════════════
+lenis.on('scroll', ({scroll}) => {
+  const el = document.getElementById('hLeft');
+  if(el) el.style.transform = `translateY(${scroll * .08}px)`;
+});
+
+// ══════════════════════════════════
+// HERO ENTRANCE ANIMATIONS
+// ══════════════════════════════════
+// Hero entrance — animate h-left children
+gsap.from('#hLeft > *', {
+  opacity: 0,
+  y: 32,
+  duration: 0.8,
+  ease: 'power3.out',
+  stagger: 0.12,
+  delay: 0.2
+});
+
+// ══════════════════════════════════
+// IMAGE REEL ANIMATION (3 columns)
+// ══════════════════════════════════
+(function() {
+  const col1 = document.getElementById('reelCol1');
+  const col2 = document.getElementById('reelCol2');
+  const col3 = document.getElementById('reelCol3');
+  if (!col1) return;
+
+  // Each column has 6 images; we animate by shifting Y
+  // Total height of one "set" = (image height + gap) * 3 images
+  // We use CSS animation for smooth looping
+
+  function getColHeight(col) {
+    const imgs = col.querySelectorAll('.reel-img');
+    let h = 0;
+    imgs.forEach((img, i) => {
+      if (i < imgs.length / 2) h += img.offsetHeight + 14;
+    });
+    return h;
+  }
+
+  let pos1 = 0, pos2 = 0, pos3 = 0;
+  let loopH1 = 0, loopH2 = 0, loopH3 = 0;
+  const speed1 = 0.55, speed2 = 0.40, speed3 = 0.70;
+
+  function initHeights() {
+    loopH1 = getColHeight(col1);
+    loopH2 = getColHeight(col2);
+    loopH3 = getColHeight(col3);
+    // Start col2 offset so columns look staggered
+    pos2 = loopH2 * 0.5;
+    pos3 = loopH3 * 0.25;
+  }
+
+  setTimeout(initHeights, 200);
+  window.addEventListener('resize', initHeights);
+
+  function animate() {
+    if (!loopH1) { requestAnimationFrame(animate); return; }
+    pos1 += speed1;
+    pos2 -= speed2;
+    pos3 += speed3;
+    if (pos1 >= loopH1) pos1 -= loopH1;
+    if (pos2 <= -loopH2) pos2 += loopH2;
+    if (pos2 > loopH2) pos2 -= loopH2;
+    if (pos3 >= loopH3) pos3 -= loopH3;
+    col1.style.transform = `translateY(-${pos1}px)`;
+    col2.style.transform = `translateY(-${pos2}px)`;
+    col3.style.transform = `translateY(-${pos3}px)`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ══════════════════════════════════
+// SCROLL-TRIGGERED ANIMATIONS
+// ══════════════════════════════════
+gsap.utils.toArray('.service-tile').forEach((tile, i) => {
+  gsap.from(tile, {
+    scrollTrigger: { trigger: tile, start: 'top 88%' },
+    opacity: 0, y: 40, duration: 0.65, delay: i * 0.07, ease: 'power2.out'
+  });
+});
+
+gsap.utils.toArray('.doctor-card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: { trigger: card, start: 'top 88%' },
+    opacity: 0, x: i % 2 === 0 ? -50 : 50, duration: 0.9, ease: 'power2.out'
+  });
+});
+
+gsap.utils.toArray('.review-item').forEach((item, i) => {
+  gsap.from(item, {
+    scrollTrigger: { trigger: item, start: 'top 92%' },
+    opacity: 0, y: 36, duration: 0.65, delay: i * 0.1
+  });
+});
+
+gsap.utils.toArray('.about-feature').forEach((f, i) => {
+  gsap.from(f, {
+    scrollTrigger: { trigger: f, start: 'top 92%' },
+    opacity: 0, x: -30, duration: 0.6, delay: i * 0.1
+  });
+});
+
+gsap.from('.about-img-main', {
+  scrollTrigger: { trigger: '.about', start: 'top 80%' },
+  opacity: 0, scale: 0.96, duration: 1, ease: 'power2.out'
+});
+
+gsap.utils.toArray('.section-title, .section-label, .section-sub').forEach(el => {
+  gsap.from(el, {
+    scrollTrigger: { trigger: el, start: 'top 92%' },
+    opacity: 0, y: 22, duration: 0.65, ease: 'power2.out'
+  });
+});
+
+// ══════════════════════════════════
+// HAMBURGER / MOBILE MENU
+// ══════════════════════════════════
+const hamburger = document.getElementById('hamburger');
+const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+let menuOpen = false;
+
+function openMobileMenu() {
+  menuOpen = true;
+  mobileMenuOverlay.classList.add('open');
+  hamburger.classList.add('active');
+  hamburger.setAttribute('aria-expanded', 'true');
+  lenis.stop();
+}
+
+function closeMobileMenu() {
+  menuOpen = false;
+  mobileMenuOverlay.classList.remove('open');
+  hamburger.classList.remove('active');
+  hamburger.setAttribute('aria-expanded', 'false');
+  lenis.start();
+}
+
+hamburger.addEventListener('click', () => {
+  menuOpen ? closeMobileMenu() : openMobileMenu();
+});
+
+// Close on ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && menuOpen) closeMobileMenu();
+});
+
+// ══════════════════════════════════
+// FAQ TOGGLE
+// ══════════════════════════════════
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ══════════════════════════════════
+// FORM SUBMIT
+// ══════════════════════════════════
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if (!fname || !phone) {
+    alert('Please fill in your name and phone number.');
+    return;
+  }
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 5000);
+  ['fname','lname','phone','appt-date','service','message'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+</script>
+</body>
+</html>
